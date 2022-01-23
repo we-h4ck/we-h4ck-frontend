@@ -1,14 +1,14 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Button = styled.button`
     border: none;
     width: 300px;
     margin: 10px;
-    padding: 10px 40px 10px 40px;
+    padding: 20px 40px 20px 40px;
     border-radius: 10px;
 
     font-family: "Open sans", "sans-serif";
-    font-weight: 600;
 `;
 
 export const ButtonContainer = styled.div`
@@ -22,4 +22,15 @@ export const ButtonContainer = styled.div`
         font-family: "Open sans", "sans-serif";
         font-size: 2.5rem;
     }
+`;
+
+export const RedirectHome = styled(Link)`
+    font-family: "Open sans", "sans-serif";
+    margin-top: 25px;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 25px 10px 25px;
+    border: 2px solid white;
+    border-radius: 10px;
 `;

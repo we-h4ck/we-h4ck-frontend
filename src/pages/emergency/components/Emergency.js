@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, Container } from "../../../components/styled/Utils.styled";
-import { Button, ButtonContainer } from "../styled/Emergency.styled";
+import { Button, ButtonContainer, RedirectHome } from "../styled/Emergency.styled";
 
 const Emergency = () => {
     return (
@@ -27,6 +27,8 @@ const Emergency = () => {
                     >
                         Infos santé : 811
                     </Button>
+
+                    <RedirectHome to="/">Back to homepage</RedirectHome>
                 </ButtonContainer>
             </Center>
         </Container>
