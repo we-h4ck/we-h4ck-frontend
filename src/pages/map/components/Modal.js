@@ -63,7 +63,7 @@ const Modal = ({ showModal, setShowModal, API_KEY_GOOGLE_MAPS, setCrimes }) => {
             lng &&
             type
         ) {
-            fetch("http://localhost:5002/api/new-crime", {
+            fetch("https://localhost:5002/api/new-crime", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Modal = ({ showModal, setShowModal, API_KEY_GOOGLE_MAPS, setCrimes }) => {
             })
                 .then(r => r.json())
                 .then(() => {
-                    fetch("http://localhost:5002/api/get-crimes")
+                    fetch("https://localhost:5002/api/get-crimes")
                         .then(r => r.json())
                         .then(r => {
                             setCrimes(r);
