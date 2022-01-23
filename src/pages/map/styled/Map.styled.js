@@ -16,9 +16,9 @@ export const ModalIcon = styled.i`
 
 export const Button = styled.button`
     position: absolute;
+    bottom: 15px;
 
     @media screen and (min-width: 768px) {
-        bottom: 15px;
         left: 30px;
     }
 
