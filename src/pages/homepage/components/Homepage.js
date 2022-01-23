@@ -9,15 +9,51 @@ const Homepage = () => {
         if (navigator.permissions && navigator.permissions.query) {
             navigator.permissions.query({ name: "geolocation" }).then((r) => {
                 if (r.state === "prompt" || r.state === "granted") {
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        sessionStorage.setItem(
-                            "position",
-                            JSON.stringify({
-                                lat: pos.coords.latitude,
-                                lng: pos.coords.longitude,
-                            })
-                        );
-                    });
+                    if (r.state === "prompt") {
+                        navigator.permissions
+                            .query({ name: "geolocation" })
+                            .then((res) => {
+                                if (res.state === "granted") {
+                                    navigator.geolocation.getCurrentPosition(
+                                        (pos) => {
+                                            sessionStorage.setItem(
+                                                "position",
+                                                JSON.stringify({
+                                                    lat: pos.coords.latitude,
+                                                    lng: pos.coords.longitude,
+                                                })
+                                            );
+                                        }
+                                    );
+                                } else {
+                                    sessionStorage.setItem(
+                                        "position",
+                                        JSON.stringify({
+                                            lat: 10,
+                                            lng: 10,
+                                        })
+                                    );
+                                }
+                            });
+                    } else {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            sessionStorage.setItem(
+                                "position",
+                                JSON.stringify({
+                                    lat: pos.coords.latitude,
+                                    lng: pos.coords.longitude,
+                                })
+                            );
+                        });
+                    }
+                } else {
+                    sessionStorage.setItem(
+                        "position",
+                        JSON.stringify({
+                            lat: 10,
+                            lng: 10,
+                        })
+                    );
                 }
             });
         } else {
