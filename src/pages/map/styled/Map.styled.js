@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const MapContainer = styled.div`
@@ -8,7 +9,7 @@ export const MapContainer = styled.div`
     }
 `;
 
-export const PopupIcon = styled.i`
+export const ModalIcon = styled.i`
     color: grey;
     font-size: 1rem;
 `;
@@ -34,4 +35,17 @@ export const Button = styled.button`
     width: 350px;
 
     cursor: pointer;
+`;
+
+export const HomeButton = styled(Link)`
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    color: ${({ theme }) => theme.mainColors.secondaryGreen};
+
+    font-size: 2rem;
+    border: 3px solid ${({ theme }) => theme.mainColors.secondaryGreen};
+    padding: 10px;
+    border-radius: 100px;
 `;

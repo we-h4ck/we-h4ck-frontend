@@ -1,5 +1,12 @@
 function toType(typeIndex) {
-    switch (typeIndex) {
+    let type = null;
+    try {
+        type = parseInt(typeIndex, 10);
+    } catch (error) {
+        type = typeIndex;
+    }
+
+    switch (type) {
         case 0:
             return "Violence and Sexual Offences";
         case 1:

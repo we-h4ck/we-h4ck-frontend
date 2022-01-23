@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState } from "react";
 import {
     GoogleMap,
@@ -9,11 +8,16 @@ import {
 import mapStyles from "../mapStyles";
 import toDate from "../../../utils/toDate";
 import toType from "../../../utils/toType";
-import { Button, MapContainer, PopupIcon } from "../styled/Map.styled";
-import Popup from "./Popup";
-import { Fade } from "../styled/Popup.styled";
+import {
+    Button,
+    HomeButton,
+    MapContainer,
+    ModalIcon,
+} from "../styled/Map.styled";
+import Modal from "./Modal";
+import toTime from "../../../utils/toTime";
 
-const API_KEY = "AIzaSyB_B7WCktnIUtJz8Y2LIT1qTBDCotE1cE4";
+const API_KEY_GOOGLE_MAPS = "AIzaSyB_B7WCktnIUtJz8Y2LIT1qTBDCotE1cE4";
 
 const mapContainerStyle = {
     width: "100vw",
@@ -30,31 +34,30 @@ const options = {
 };
 
 const Map = () => {
-    const [startConfig, setStartConfig] = useState(null);
-    const [selected, setSelected] = useState(null);
-    const [crimes, setCrimes] = useState(null);
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [startConfig, setStartConfig] = useState("");
+    const [selected, setSelected] = useState("");
+    const [crimes, setCrimes] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-
-        const lat = parseFloat(queryParams.get("lat"));
-        const lng = parseFloat(queryParams.get("lng"));
-
-        console.log("Lattitude is: ", lat, " and longitude is: ", lng);
+        const { lat, lng } = JSON.parse(sessionStorage.getItem("position"));
 
         setStartConfig({
             center: { lat: lat || 0, lng: lng || 0 },
             zoom: lat && lng ? 10 : 2,
         });
 
-        fetch("http://localhost:5000/api/get-crimes")
-            .then((r) => r.json())
-            .then((r) => setCrimes(r));
+        fetch("http://192.168.86.53:5000/api/get-crimes")
+            .then(r => r.json())
+            .then(r => {
+                setCrimes(r);
+                setLoading(false);
+            });
     }, []);
 
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: API_KEY,
+        googleMapsApiKey: API_KEY_GOOGLE_MAPS,
         libraries: librairies,
     });
 
@@ -62,75 +65,87 @@ const Map = () => {
     if (!isLoaded) return "Loading maps";
 
     return (
-        <MapContainer>
-            <GoogleMap
-                className
-                mapContainerStyle={mapContainerStyle}
-                zoom={startConfig.zoom}
-                center={startConfig.center}
-                options={options}
-            >
-                {crimes.map((crime) => {
-                    return (
-                        <Marker
-                            // eslint-disable-next-line no-underscore-dangle
-                            key={crime._id}
-                            position={{ lat: crime.lat, lng: crime.lng }}
-                            onClick={() => setSelected(crime)}
-                        />
-                    );
-                })}
-
-                {selected ? (
-                    <InfoWindow
-                        position={{ lat: selected.lat, lng: selected.lng }}
-                        onCloseClick={() => {
-                            setSelected(null);
-                        }}
+        <div>
+            {!isLoading && (
+                <MapContainer>
+                    <GoogleMap
+                        mapContainerStyle={mapContainerStyle}
+                        zoom={startConfig.zoom}
+                        center={startConfig.center}
+                        options={options}
                     >
-                        <div style={{ color: "black" }}>
-                            <h1>Crime details</h1>
-                            <p>
-                                <span>Date</span>
-                                <br />
-                                <PopupIcon className="far fa-calendar-alt" />{" "}
-                                {toDate(selected.timestamp)}
-                            </p>
-                            <p>
-                                <span>Type of crime</span>
-                                <br />
-                                {toType(selected.type)}
-                            </p>
-                            {selected.description && (
-                                <p>
-                                    <span>Description</span>
-                                    <br />
-                                    {selected.description}
-                                </p>
-                            )}
-                        </div>
-                    </InfoWindow>
-                ) : null}
-            </GoogleMap>
+                        {crimes.map(crime => {
+                            return (
+                                <Marker
+                                    // eslint-disable-next-line no-underscore-dangle
+                                    key={crime._id}
+                                    position={{
+                                        lat: crime.lat,
+                                        lng: crime.lng,
+                                    }}
+                                    onClick={() => setSelected(crime)}
+                                />
+                            );
+                        })}
 
-            <Button
-                type="button"
-                onClick={() =>
-                    setIsPopupVisible((currVisibility) => !currVisibility)
-                }
-            >
-                Report a crime
-            </Button>
+                        {selected ? (
+                            <InfoWindow
+                                position={{
+                                    lat: selected.lat,
+                                    lng: selected.lng,
+                                }}
+                                onCloseClick={() => {
+                                    setSelected(null);
+                                }}
+                            >
+                                <div style={{ color: "black" }}>
+                                    <h1>Crime details</h1>
+                                    <p>
+                                        <span>Date</span>
+                                        <br />
+                                        <ModalIcon className="far fa-calendar-alt" />{" "}
+                                        {toDate(selected.timestamp)}
+                                    </p>
+                                    <p>
+                                        <span>Time</span>
+                                        <br />
+                                        <ModalIcon className="far fa-clock" />{" "}
+                                        {toTime(selected.time)}
+                                    </p>
+                                    <p>
+                                        <span>Type of crime</span>
+                                        <br />
+                                        {toType(selected.type)}
+                                    </p>
+                                    {selected.description && (
+                                        <p>
+                                            <span>Description</span>
+                                            <br />
+                                            {selected.description}
+                                        </p>
+                                    )}
+                                </div>
+                            </InfoWindow>
+                        ) : null}
+                    </GoogleMap>
 
-            <Fade out={isPopupVisible}>
-                {" "}
-                <Popup
-                    setCrimes={setCrimes}
-                    lat={startConfig.center.lat}
-                    lng={startConfig.center.lng}
-                />
-            </Fade>
-        </MapContainer>
+                    <Button type="button" onClick={() => setShowModal(true)}>
+                        Report a crime
+                    </Button>
+
+                    <HomeButton to="/">
+                        <i className="fas fa-home" />
+                    </HomeButton>
+
+                    <Modal
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                        setCrimes={setCrimes}
+                        API_KEY_GOOGLE_MAPS={API_KEY_GOOGLE_MAPS}
+                    />
+                </MapContainer>
+            )}
+        </div>
     );
 };
 
