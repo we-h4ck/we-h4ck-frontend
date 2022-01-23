@@ -16,8 +16,19 @@ export const ModalIcon = styled.i`
 
 export const Button = styled.button`
     position: absolute;
-    bottom: 15px;
-    left: 30px;
+
+    @media screen and (min-width: 768px) {
+        bottom: 15px;
+        left: 30px;
+    }
+
+    @media screen and (max-width: 767px) {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
 
     background-color: ${({ theme }) => theme.mainColors.secondaryGreen};
     border: none;
