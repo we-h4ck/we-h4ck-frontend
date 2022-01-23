@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import NotFound from "./NotFound";
-import Emergency from "./pages/emergency/components/Emergency";
 import Homepage from "./pages/homepage/components/Homepage";
 import Map from "./pages/map/components/Map";
 
@@ -21,8 +20,6 @@ function App() {
                 <Route exact path="/" component={Homepage} />
 
                 <Route exact path="/map" component={Map} />
-
-                <Route exact path="/emergency" component={Emergency} />
 
                 <Route component={NotFound} />
             </Switch>
