@@ -88,7 +88,7 @@ export const Button = styled(Link)`
     font-size: 1rem;
     font-weight: 400;
 
-    max-width: 150px;
+    max-width: 175px;
 
     cursor: pointer;
 `;

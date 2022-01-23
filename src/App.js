@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import NotFound from "./NotFound";
+import Emergency from "./pages/emergency/components/Emergency";
 import Homepage from "./pages/homepage/components/Homepage";
 import Map from "./pages/map/components/Map";
 
@@ -10,6 +11,7 @@ function App() {
         mainColors: {
             mainGreen: "#40916c",
             secondaryGreen: "#1b4332",
+            tertiaryGreen: "#B7E4C7",
         },
     };
 
@@ -19,6 +21,8 @@ function App() {
                 <Route exact path="/" component={Homepage} />
 
                 <Route exact path="/map" component={Map} />
+
+                <Route exact path="/emergency" component={Emergency} />
 
                 <Route component={NotFound} />
             </Switch>

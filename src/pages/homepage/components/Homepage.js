@@ -93,6 +93,12 @@ const Homepage = () => {
                                     </h2>
 
                                     <Button to="/map">Get started</Button>
+                                    <Button
+                                        style={{ backgroundColor: "red" }}
+                                        to="/emergency"
+                                    >
+                                        Emergency numbers
+                                    </Button>
                                 </div>
                                 <Visible lg xl>
                                     <div className="right">
