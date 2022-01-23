@@ -6,27 +6,30 @@ import { HomepageContainer, Button } from "../styled/Homepage.styled";
 const Homepage = () => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
-        navigator.permissions.query({ name: "geolocation" }).then((r) => {
-            if (r.state === "prompt" || r.state === "granted") {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    sessionStorage.setItem(
-                        "position",
-                        JSON.stringify({
-                            lat: pos.coords.latitude,
-                            lng: pos.coords.longitude,
-                        })
-                    );
-                });
-            } else {
-                sessionStorage.setItem(
-                    "position",
-                    JSON.stringify({
-                        lat: 10,
-                        lng: 10,
-                    })
-                );
-            }
-        });
+        if (navigator.permissions && navigator.permissions.query) {
+            navigator.permissions.query({ name: "geolocation" }).then((r) => {
+                if (r.state === "prompt" || r.state === "granted") {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        sessionStorage.setItem(
+                            "position",
+                            JSON.stringify({
+                                lat: pos.coords.latitude,
+                                lng: pos.coords.longitude,
+                            })
+                        );
+                    });
+                }
+            });
+        } else {
+            sessionStorage.setItem(
+                "position",
+                JSON.stringify({
+                    lat: 10,
+                    lng: 10,
+                })
+            );
+        }
+
         setLoading(false);
     }, []);
 
