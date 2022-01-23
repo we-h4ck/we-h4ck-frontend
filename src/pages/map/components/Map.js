@@ -48,7 +48,7 @@ const Map = () => {
             zoom: lat && lng ? 10 : 2,
         });
 
-        fetch("https://localhost:5002/api/get-crimes")
+        fetch("/api/get-crimes")
             .then(r => r.json())
             .then(r => {
                 setCrimes(r);
