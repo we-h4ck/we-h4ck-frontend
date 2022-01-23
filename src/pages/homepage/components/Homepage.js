@@ -6,15 +6,25 @@ import { HomepageContainer, Button } from "../styled/Homepage.styled";
 const Homepage = () => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(pos => {
+        try {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                sessionStorage.setItem(
+                    "position",
+                    JSON.stringify({
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude,
+                    })
+                );
+            });
+        } catch (error) {
             sessionStorage.setItem(
                 "position",
                 JSON.stringify({
-                    lat: pos.coords.latitude,
-                    lng: pos.coords.longitude,
+                    lat: 0,
+                    lng: 0,
                 })
             );
-        });
+        }
         setLoading(false);
     }, []);
 
