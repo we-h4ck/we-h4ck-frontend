@@ -8,10 +8,8 @@ import Map from "./pages/map/components/Map";
 function App() {
     const theme = {
         mainColors: {
-            mainBlue: "#023E7D",
-            ctaPrimaryBlue: "#0466C8",
-            ctaSecondaryBlue: "#4A77A4",
-            lightBlue: "#5DA3EA",
+            mainGreen: "#40916c",
+            secondaryGreen: "#1b4332",
         },
     };
 

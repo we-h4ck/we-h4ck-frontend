@@ -1,11 +1,13 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HomepageContainer = styled.div`
     font-family: "Open Sans", sans-serif;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 
     @media screen and (min-width: 992px) and (max-width: 1199px) {
         flex-direction: column;
@@ -38,12 +40,12 @@ export const HomepageContainer = styled.div`
         margin: 0 35px 0 35px;
 
         img {
-            width: 30rem;
+            width: 35rem;
         }
     }
 
     span {
-        color: ${({ theme }) => theme.mainColors.lightBlue};
+        color: ${({ theme }) => theme.mainColors.secondaryGreen};
     }
 
     h1 {
@@ -58,12 +60,25 @@ export const HomepageContainer = styled.div`
         font-size: 1.5rem;
         font-weight: 400;
     }
+
+    .warning {
+        font-size: 0.75rem;
+        margin: 10px 50px 10px 50px;
+
+        @media screen and (min-width: 992px) {
+            margin: 20px 35px 0 35px;
+        }
+
+        align-self: left;
+    }
 `;
 
-export const Button = styled.button`
-    background-color: ${({ theme }) => theme.mainColors.ctaPrimaryBlue};
+export const Button = styled(Link)`
+    background-color: ${({ theme }) => theme.mainColors.secondaryGreen};
     border: none;
     color: white;
+    text-decoration: none;
+    text-align: center;
 
     padding: 15px 40px 15px 40px;
     margin: 15px 15px 15px 0;
@@ -73,7 +88,7 @@ export const Button = styled.button`
     font-size: 1rem;
     font-weight: 400;
 
-    max-width: 250px;
+    max-width: 150px;
 
     cursor: pointer;
 `;
